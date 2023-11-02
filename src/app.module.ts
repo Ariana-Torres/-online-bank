@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -16,6 +17,7 @@ import { AuthModule } from './modules/auth/auth.module';
     synchronize: true,
   }),
   AuthModule,
+  FilesModule
 ],
   controllers: [AppController],
   providers: [AppService],
