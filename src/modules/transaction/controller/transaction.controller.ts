@@ -6,11 +6,6 @@ import { CreateTransactionDto } from "../dtos/trasaction.dto";
 export class TransactionController {
     constructor(private readonly transactionRepository: TransactionService) {}
 
-    @Get()
-    async findAll() {
-        return this.transactionRepository.findAll();
-    }
-
     @Get(':id')
     async findOne(id: number) {
         return this.transactionRepository.findOne(id)
@@ -21,18 +16,8 @@ export class TransactionController {
         return this.transactionRepository.create(createTransactionDto);
     }
 
-    @Put(':id')
-    async update(
-        @Param('id') id: number,
-        @Body() updateTransactionDto: CreateTransactionDto,
-    ) {
-        return this.transactionRepository.update(id, updateTransactionDto);
-    }
-
     @Delete(':id')
     async remove(@Param('id') id: number) {
         return this.transactionRepository.remove(id);
     }
-
-
 }

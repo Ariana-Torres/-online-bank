@@ -11,15 +11,6 @@ export class CardService{
         private readonly cardRepository: Repository<Card>
     ){}
 
-    async findAll(): Promise<Card[]>{
-        try{
-            return await this.cardRepository.find();
-        }
-        catch(error){
-            throw new Error(`Error: ${error.message}`);
-        }
-    }
-
     async findOne(id: number): Promise<Card>{
         try{
             return await this.cardRepository.findOne({where:{id}});

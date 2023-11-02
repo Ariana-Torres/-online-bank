@@ -5,12 +5,6 @@ import { CreateCardDto } from "../dto/card.dto";
 @Controller('card')
 export class CardController{
     constructor(private readonly cardRepository: CardService){}
-
-    @Get()
-    async findAll(){
-        return await this.cardRepository.findAll();
-    }
-
     @Get(':id')
     async findOne(id: number){
         return await this.cardRepository.findOne(id);

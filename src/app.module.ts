@@ -7,6 +7,7 @@ import { FilesModule } from './modules/files/files.module';
 import { AccountBankModule } from './modules/account/account.module';
 import { TransactionModule } from './modules/transaction/trasaction.module';
 import { CardModule } from './modules/card-bank/card.module';
+import { BeneficiaryModule } from './modules/beneficiary/beneficiary.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,6 +25,7 @@ import { CardModule } from './modules/card-bank/card.module';
   AccountBankModule,
   TransactionModule,
   CardModule,
+  BeneficiaryModule,
 ],
   controllers: [AppController],
   providers: [AppService],
