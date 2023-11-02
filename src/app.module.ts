@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { FilesModule } from './modules/files/files.module';
+import { AccountBankModule } from './modules/account/account.module';
+import { TransactionModule } from './modules/transaction/trasaction.module';
+import { CardModule } from './modules/card-bank/card.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,7 +20,10 @@ import { FilesModule } from './modules/files/files.module';
     synchronize: true,
   }),
   AuthModule,
-  FilesModule
+  FilesModule,
+  AccountBankModule,
+  TransactionModule,
+  CardModule,
 ],
   controllers: [AppController],
   providers: [AppService],
