@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/modules/auth/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class AccountBank {
@@ -11,8 +12,8 @@ export class AccountBank {
     @Column({type: 'numeric', nullable: false, default: 0})
     balance: number;
 
-    @Column({type: 'varchar', nullable: false})
-    user: string;
+    @ManyToOne(()=> User, user=> user.account)
+    users: User;
 
     @Column({type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP'})
     dateCreated: Date;

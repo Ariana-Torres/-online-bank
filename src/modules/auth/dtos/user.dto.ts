@@ -1,4 +1,5 @@
 import {
+  IsArray,
     IsBoolean,
     IsNotEmpty,
     IsNumber,
@@ -33,6 +34,11 @@ import {
     @IsBoolean()
     @IsOptional()
     active: boolean;
+
+    @IsArray({ each: true })
+    @IsString()
+    @IsOptional()
+    images?: string[];
 
   }
   

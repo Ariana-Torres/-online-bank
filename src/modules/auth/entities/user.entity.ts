@@ -1,4 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UsersImages } from './usersImages.entity';
+import { AccountBank } from 'src/modules/account/entities/account.entity';
 
 @Entity()
 export class User {
@@ -22,4 +24,12 @@ export class User {
 
   @Column({ type: 'text', array: true, default: ['user'] })
   roles: string[];
+
+  @OneToMany(() => UsersImages, (userImage) => userImage.user, {
+    cascade: true,
+  })
+  images?: UsersImages[];
+
+  @OneToMany(() => AccountBank, books => books.users)
+  account: AccountBank[]
 }

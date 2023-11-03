@@ -3,10 +3,12 @@ import {
     IsDate,
     IsNotEmpty,
     IsNumber,
+    IsObject,
     IsOptional,
     IsString,
     MaxLength,
   } from 'class-validator';
+import { User } from 'src/modules/auth/entities/user.entity';
 
 export class CreateAccountDto{
     @IsNotEmpty()
@@ -21,9 +23,9 @@ export class CreateAccountDto{
     @IsNotEmpty()
     balance: number;
 
-    @IsString()
     @IsNotEmpty()
-    user: string;
+    @IsObject()
+    users:User
 
     @IsDate()
     @IsNotEmpty()

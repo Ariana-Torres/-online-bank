@@ -11,19 +11,26 @@ export class AccountService {
         private readonly accountRepository: Repository<AccountBank>
     ) {}
 
-    async create( account: CreateAccountDto): Promise<AccountBank> {
-        try{
-            const newAccount = this.accountRepository.create(account);
-            return await this.accountRepository.save(newAccount);
+    async create(account: CreateAccountDto): Promise<AccountBank> {
+        try {
+          const { users, ...accountDetail } = account;
+          const newAccount = this.accountRepository.create({
+            ...accountDetail,
+            users,
+          });
+    
+          await this.accountRepository.save(newAccount);
+          return newAccount;
+        } catch (error) {
+          throw new Error(`Error creating account: ${error.message}`);
         }
-        catch(error){
-           throw new Error(`Error: ${error.message}`);
-        }
-    }
-
+      }
+      
     async findAll(): Promise<AccountBank[]> {
       try{
-        return this.accountRepository.find();
+        return this.accountRepository.find({
+            relations: ['users']
+        });
       }
         catch(error){
             throw new Error(`Error: ${error.message}`);
