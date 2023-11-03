@@ -4,6 +4,7 @@ import { User } from "./entities/user.entity";
 import { UserController } from "./controller/user.controller";
 import { UserService } from './services/user.service';
 import { UsersImages } from "./entities/usersImages.entity";
+import { Card } from "../card-bank/entities/card.entity";
 
 @Module({
     imports: [TypeOrmModule.forFeature([User, UsersImages])],

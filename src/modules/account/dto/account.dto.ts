@@ -1,4 +1,5 @@
 import {
+  IsArray,
     IsBoolean,
     IsDate,
     IsNotEmpty,
@@ -9,6 +10,7 @@ import {
     MaxLength,
   } from 'class-validator';
 import { User } from 'src/modules/auth/entities/user.entity';
+import { TypeAccount } from 'src/modules/type-account/entities/type-account.entity';
 
 export class CreateAccountDto{
     @IsNotEmpty()
@@ -31,17 +33,18 @@ export class CreateAccountDto{
     @IsNotEmpty()
     dateCreated: Date;
 
-    @IsString()
     @IsNotEmpty()
-    typeAccount: string;
+    @IsArray()
+    typeAccount: TypeAccount;
 
     @IsDate()
     @IsNotEmpty()
     expirationDate: Date;
 
+    @IsArray({ each: true })
     @IsString()
-    @IsNotEmpty()
-    cards: string;
+    @IsOptional()
+    cards?: { cardNumber: string; cardType: string; expirationDate: string }[];
 
     @IsBoolean()
     @IsOptional()

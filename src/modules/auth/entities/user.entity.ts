@@ -30,6 +30,6 @@ export class User {
   })
   images?: UsersImages[];
 
-  @OneToMany(() => AccountBank, books => books.users)
+  @OneToMany(() => AccountBank, account => account.users)
   account: AccountBank[]
 }

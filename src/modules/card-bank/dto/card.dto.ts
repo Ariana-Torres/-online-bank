@@ -15,7 +15,7 @@ export class CreateCardDto{
 
     @IsNotEmpty()
     @IsDate()
-    expirationDate: Date;
+    expirationDate: string;
 
     @IsOptional()
     @IsNumber()

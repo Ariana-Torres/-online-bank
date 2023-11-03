@@ -11,6 +11,7 @@ export class CardService{
         private readonly cardRepository: Repository<Card>
     ){}
 
+
     async findOne(id: number): Promise<Card>{
         try{
             return await this.cardRepository.findOne({where:{id}});

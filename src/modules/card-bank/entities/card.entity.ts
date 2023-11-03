@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { type } from "os";
+import { AccountBank } from "src/modules/account/entities/account.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Card {
@@ -11,10 +13,12 @@ export class Card {
     @Column({type: "varchar", length: 50})
     cardType: string;
 
-    @Column({type: 'timestamp' , nullable: false, default: () => 'CURRENT_TIMESTAMP'})
-    expirationDate: Date;
+    @Column({type: 'varchar' , length: 50})
+    expirationDate: string;
 
-    @Column({type: "varchar", length: 50})
-    accountId: number;
+    @ManyToOne(() => AccountBank, account => account.cards,{
+        onDelete: 'CASCADE',
+    })
+    account: AccountBank;
 
 }
