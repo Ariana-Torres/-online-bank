@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Delete } from "@nestjs/common";
 import { BeneFiciaryService } from "../services/beneficiary.service";
 import { CreateBeneficiaryDto } from "../dto/beneficiary.dto";
 import { Beneficiary } from "../entities/beneficiary.entity";
@@ -19,7 +19,7 @@ export class BeneficiaryController{
     }
 
     @Post()
-    async create(@Body() beneficiary: Beneficiary){
+    async create(@Body() beneficiary: CreateBeneficiaryDto){
         return await this.beneficiaryRepository.create(beneficiary);
     }
 
@@ -29,5 +29,10 @@ export class BeneficiaryController{
         @Body() beneficiary: Beneficiary
     ){
         return await this.beneficiaryRepository.update(id, beneficiary);
+    }
+
+    @Delete(':id')
+    async delete(@Param('id') id: number){
+        return await this.beneficiaryRepository.delete(id);
     }
 }

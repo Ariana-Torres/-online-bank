@@ -1,11 +1,15 @@
 import {
+  IsArray,
   IsBoolean,
   IsDate,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { AccountBank } from 'src/modules/account/entities/account.entity';
+import { User } from 'src/modules/auth/entities/user.entity';
 
 export class CreateTransactionDto {
   @IsNotEmpty()
@@ -24,11 +28,11 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   amount: number;
 
-  @IsString()
   @IsNotEmpty()
-  originaccount: string;
+  @IsObject()
+  propietary: User;
 
-  @IsString()
-  @IsNotEmpty()
-  destinationaccount: string;
+  @IsNumber()
+  @IsOptional()
+  beneficiaryId: number;
 }

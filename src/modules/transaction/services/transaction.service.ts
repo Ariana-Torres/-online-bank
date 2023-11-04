@@ -2,7 +2,7 @@ import { Body, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateTransactionDto } from "../dtos/trasaction.dto";
-import { Transaction } from "../entities/transaction.entity";
+import { Transaction } from '../entities/transaction.entity';
 
 @Injectable()
 export class TransactionService{
@@ -13,8 +13,14 @@ export class TransactionService{
 
     async create(transaction: CreateTransactionDto): Promise<Transaction>{
         try{
-            const newTransaction = this.transactionRepository.create(transaction);
-            return await this.transactionRepository.save(newTransaction);
+            const {propietary ,beneficiaryId, ...transactionDetail} = transaction;
+            const newTransaction = this.transactionRepository.create({
+                ...transactionDetail,
+                beneficiary: beneficiaryId ? [{id: beneficiaryId}] : [],
+                propietary, 
+            });
+            await this.transactionRepository.save(newTransaction);
+            return newTransaction;
         }
         catch(error){
             throw new Error(`Error: ${error.message}`);

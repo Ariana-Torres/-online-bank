@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UsersImages } from './usersImages.entity';
 import { AccountBank } from 'src/modules/account/entities/account.entity';
+import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
 
 @Entity()
 export class User {
@@ -32,4 +33,7 @@ export class User {
 
   @OneToMany(() => AccountBank, account => account.users)
   account: AccountBank[]
+
+  @OneToMany(() => Transaction, transaction => transaction.propietary)
+  transaction: Transaction[];
 }

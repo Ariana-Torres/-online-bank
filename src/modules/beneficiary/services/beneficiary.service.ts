@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Beneficiary } from "../entities/beneficiary.entity";
 import { Repository } from "typeorm";
+import { CreateBeneficiaryDto } from "../dto/beneficiary.dto";
 
 @Injectable()
 export class BeneFiciaryService{
@@ -10,9 +11,13 @@ export class BeneFiciaryService{
         private readonly beneficiaryRepository: Repository<Beneficiary>
     ){}
 
-    async create(beneficiary: Beneficiary): Promise<Beneficiary>{
+    async create(beneficiary: CreateBeneficiaryDto): Promise<Beneficiary>{
         try{
-            const newBeneficiary = this.beneficiaryRepository.create(beneficiary);
+            const {accountId, ...beneficiaryDetail} = beneficiary;
+            const newBeneficiary = this.beneficiaryRepository.create({
+                ...beneficiaryDetail,
+                account: accountId ? [{id: accountId}] : []
+            });
             await this.beneficiaryRepository.save(newBeneficiary);
             return newBeneficiary;
         }
@@ -23,7 +28,9 @@ export class BeneFiciaryService{
 
     async finAll(): Promise<Beneficiary[]>{
         try{
-            return await this.beneficiaryRepository.find();
+           return await this.beneficiaryRepository.find({
+                relations: ['account']
+              });
         }
         catch(error){
             throw new Error(`Error: ${error.message}`);

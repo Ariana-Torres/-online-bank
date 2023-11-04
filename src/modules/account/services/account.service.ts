@@ -22,14 +22,14 @@ export class AccountService {
             ...accountDetail,
             users,
             typeAccount,
-            transaction: transactionId ? [{ id: transactionId }] : [],
-            beneficiaries: beneficiaryId ? [{ id: beneficiaryId }] : [],
+            transaction: transactionId ? [{ id: transactionId }] : [],//mer sirve para crear un array de objetos de tipo transaction
+            beneficiaries: beneficiaryId ? [{ id: beneficiaryId }] : [], //mer sirve para crear un array de objetos de tipo beneficiary
             cards: cards.map((card) => this.cardRepository.create({
-                ...card,
+                ...card, //creo un objeto de tipo card
             })),
           });
     
-          await this.accountRepository.save(newAccount);
+          await this.accountRepository.save(newAccount); //guardo la cuenta con las relaciones
           return newAccount;
         } catch (error) {
           throw new Error(`Error creating account: ${error.message}`);
@@ -39,7 +39,7 @@ export class AccountService {
     async findAll(): Promise<AccountBank[]> {
       try{
         return this.accountRepository.find({
-            relations: ['users', 'cards','typeAccount', 'beneficiaries', 'transaction']
+            relations: ['users', 'cards','typeAccount', 'beneficiaries', 'transaction']//traigo las relaciones de la cuenta
         });
       }
         catch(error){
