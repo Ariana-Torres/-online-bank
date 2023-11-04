@@ -50,7 +50,11 @@ export class CreateAccountDto{
     @IsOptional()
     active: boolean;
 
-    @IsString()
-    @IsNotEmpty()
-    beneficiary: string;
+    @IsNumber()
+    @IsOptional()
+    beneficiaryId: number;
+
+    @IsNumber()
+    @IsOptional()
+    transactionId: number;
 }

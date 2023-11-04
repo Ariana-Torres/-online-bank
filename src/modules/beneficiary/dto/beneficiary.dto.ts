@@ -8,16 +8,4 @@ export class CreateBeneficiaryDto {
     @IsNotEmpty()
     @IsString()
     name: string;
-
-    @IsNotEmpty()
-    @IsNumber()
-    accountNumber: string;
-
-    @IsNotEmpty()
-    @IsString()
-    TypeAccount: string;
-
-    @IsOptional()
-    @IsNumber()
-    accountId: number;
 }

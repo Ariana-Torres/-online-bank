@@ -27,7 +27,8 @@ import { TypeAccountModule } from './modules/type-account/type-account.module';
   TransactionModule,
   CardModule,
   BeneficiaryModule,
-  TypeAccountModule
+  TypeAccountModule,
+  TransactionModule
 ],
   controllers: [AppController],
   providers: [AppService],

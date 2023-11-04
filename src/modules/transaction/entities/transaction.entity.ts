@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { AccountBank } from "src/modules/account/entities/account.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Transaction {
@@ -19,4 +20,7 @@ export class Transaction {
 
     @Column({type: 'varchar', nullable: false})
     destinationaccount: string;//se pude relacionar con la tabla de cuentas o usuarios
+
+    @ManyToOne(()=> AccountBank, account=> account.transaction)
+    account: AccountBank;
 }

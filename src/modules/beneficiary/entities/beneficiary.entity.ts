@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { AccountBank } from "src/modules/account/entities/account.entity";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Beneficiary {
@@ -7,13 +8,8 @@ export class Beneficiary {
 
     @Column({type: "varchar", length: 50})
     name: string;
-
-    @Column({type: "varchar", length: 50})
-    accountNumber: string;
-
-    @Column({type: "varchar", length: 50})
-    TypeAccount: string;
-
-    @Column({type: "varchar", length: 50})
-    accountId: number;
+    
+    @ManyToMany(() => AccountBank, account => account.beneficiaries)
+    @JoinTable()
+    account: AccountBank[]
 }

@@ -1,7 +1,9 @@
 import { User } from "src/modules/auth/entities/user.entity";
+import { Beneficiary } from "src/modules/beneficiary/entities/beneficiary.entity";
 import { Card } from "src/modules/card-bank/entities/card.entity";
+import { Transaction } from "src/modules/transaction/entities/transaction.entity";
 import { TypeAccount } from "src/modules/type-account/entities/type-account.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class AccountBank {
@@ -33,7 +35,11 @@ export class AccountBank {
     
     @Column({type: 'boolean', nullable: false, default: true})
     active: boolean;
-    
-    @Column({type: 'varchar', nullable: false})
-    beneficiary: string;
+
+    @ManyToMany(()=> Beneficiary, beneficiary=> beneficiary.account)
+    beneficiaries: Beneficiary[]
+
+    @OneToMany(()=> Transaction, transaction=> transaction.account)
+    transaction: Transaction[];
+
 }

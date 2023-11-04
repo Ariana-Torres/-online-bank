@@ -17,11 +17,13 @@ export class AccountService {
 
     async create(account: CreateAccountDto,  ): Promise<AccountBank> {
         try {
-          const { cards=[], typeAccount, users, ...accountDetail } = account;
+          const { cards=[],transactionId,beneficiaryId, typeAccount, users, ...accountDetail } = account;
           const newAccount = this.accountRepository.create({
             ...accountDetail,
             users,
             typeAccount,
+            transaction: transactionId ? [{ id: transactionId }] : [],
+            beneficiaries: beneficiaryId ? [{ id: beneficiaryId }] : [],
             cards: cards.map((card) => this.cardRepository.create({
                 ...card,
             })),
@@ -37,7 +39,7 @@ export class AccountService {
     async findAll(): Promise<AccountBank[]> {
       try{
         return this.accountRepository.find({
-            relations: ['users', 'cards','typeAccount']
+            relations: ['users', 'cards','typeAccount', 'beneficiaries', 'transaction']
         });
       }
         catch(error){
