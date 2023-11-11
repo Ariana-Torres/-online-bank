@@ -4,10 +4,8 @@ import {
     IsDate,
     IsNotEmpty,
     IsNumber,
-    IsObject,
     IsOptional,
     IsString,
-    MaxLength,
   } from 'class-validator';
 import { TypeAccount } from 'src/modules/type-account/entities/type-account.entity';
 
@@ -32,9 +30,9 @@ export class CreateAccountDto{
     @IsNotEmpty()
     dateCreated: Date;
 
-    @IsNotEmpty()
-    @IsArray()
-    typeAccount: TypeAccount;
+    @IsNumber()
+    @IsOptional()
+    typeAccountId: number;
 
     @IsDate()
     @IsNotEmpty()

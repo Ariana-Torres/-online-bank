@@ -15,6 +15,6 @@ export class Beneficiary {
     account: AccountBank[]
 
     @OneToMany(() => Transaction, transaction => transaction.beneficiary)
-    transaction: Transaction;
+    transaction: Transaction[];
 
 }

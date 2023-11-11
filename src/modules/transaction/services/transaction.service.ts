@@ -3,30 +3,63 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateTransactionDto } from "../dtos/trasaction.dto";
 import { Transaction } from '../entities/transaction.entity';
+import { AccountBank } from "src/modules/account/entities/account.entity";
+import { User } from "src/modules/auth/entities/user.entity";
 
 @Injectable()
 export class TransactionService{
     constructor(
         @InjectRepository(Transaction)
-        private readonly transactionRepository: Repository<Transaction>
+        private readonly transactionRepository: Repository<Transaction>,
+
+        @InjectRepository(AccountBank)
+        private readonly accountRepository: Repository<AccountBank>,
+
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
     ){}
 
-    async create(transaction: CreateTransactionDto): Promise<Transaction>{
-        try{
-            const {propietaryId ,beneficiaryId,accountId,  ...transactionDetail} = transaction;
-            const newTransaction = this.transactionRepository.create({
-                ...transactionDetail,
-                beneficiary: beneficiaryId ? [{id: beneficiaryId}] : [],
-                account: accountId ? [{id: accountId}] : [],
-                propietary: propietaryId ? [{id: propietaryId}] : []
-            });
-            await this.transactionRepository.save(newTransaction);
-            return newTransaction;
+    async create(transaction: CreateTransactionDto): Promise<Transaction> {
+        try {
+          const { propietaryId, beneficiaryId, accountId, ...transactionDetail } = transaction;
+      
+          // Verificar si existe la cuenta
+          const account = await this.accountRepository.findOne({
+            where: { id: accountId }});
+          if (!account) {
+            throw new NotFoundException(`No se encontró la cuenta con ID ${accountId}`);
+          }
+      
+          // Verificar si existe el propietario
+          const propietary = await this.userRepository.findOne({where:{id: propietaryId}});
+          if (!propietary) {
+            throw new NotFoundException(`No se encontró el propietario con ID ${propietaryId}`);
+          }
+      
+          // Verificar si existe el beneficiario
+          const beneficiary = await this.userRepository.findOne({where:{id: beneficiaryId}});
+          if (!beneficiary) {
+            throw new NotFoundException(`No se encontró el beneficiario con ID ${beneficiaryId}`);
+          }
+      
+          const newTransaction = this.transactionRepository.create({
+            ...transactionDetail,
+            beneficiary: { id: beneficiaryId },
+            account: { id: accountId },
+            propietary: { id: propietaryId },
+          });
+      
+          await this.transactionRepository.save(newTransaction);
+      
+          return newTransaction;
+        } catch (error) {
+          if (error instanceof NotFoundException) {
+            throw error;
+          }
+          throw new Error(`Error: ${error.message}`);
         }
-        catch(error){
-            throw new Error(`Error: ${error.message}`);
-        }
-    }
+      }
+      
 
     async findAll(): Promise<Transaction[]>{
         try{

@@ -17,12 +17,12 @@ export class Transaction {
     @Column({type: 'numeric', nullable: false, default: 0})
     amount: number;
 
-    @ManyToOne(()=> AccountBank, account=> account.transaction)
-    account: AccountBank[];
+    @ManyToOne(() => AccountBank, account => account.transactions)
+    account: AccountBank;
 
-    @ManyToMany(()=> Beneficiary, beneficiary=> beneficiary.account)
-    beneficiary: Beneficiary[];
+    @ManyToOne(()=> Beneficiary, beneficiary=> beneficiary.account)
+    beneficiary: Beneficiary;
 
     @ManyToOne(()=>User, user=> user.transaction)
-    propietary: User[];
+    propietary: User;
 }

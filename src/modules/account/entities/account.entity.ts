@@ -3,7 +3,8 @@ import { Beneficiary } from "src/modules/beneficiary/entities/beneficiary.entity
 import { Card } from "src/modules/card-bank/entities/card.entity";
 import { Transaction } from "src/modules/transaction/entities/transaction.entity";
 import { TypeAccount } from "src/modules/type-account/entities/type-account.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Delete } from '@nestjs/common';
 
 @Entity()
 export class AccountBank {
@@ -22,8 +23,8 @@ export class AccountBank {
     @Column({type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP'})
     dateCreated: Date;
 
-    @ManyToOne(()=>TypeAccount, typeAccount=> typeAccount.account)
-    typeAccount: TypeAccount;
+    @OneToMany(()=>TypeAccount, typeAccount=> typeAccount.account)
+    typeAccount: TypeAccount[];
 
     @Column({type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP'})
     expirationDate: Date;
@@ -39,7 +40,9 @@ export class AccountBank {
     @ManyToMany(()=> Beneficiary, beneficiary=> beneficiary.account)
     beneficiaries: Beneficiary[]
 
-    @OneToMany(()=> Transaction, transaction=> transaction.account)
-    transaction: Transaction[];
+    @OneToMany(() => Transaction, transaction => transaction.account, {
+       cascade: true // Me sirve para realizar operaciones en cascada
+      })
+    transactions: Transaction[];
 
 }

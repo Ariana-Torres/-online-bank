@@ -14,11 +14,12 @@ export class TypeAccountService{
     async create(typeAccount: CreateTypeAccountDto): Promise<TypeAccount>{
         try{
             const newTypeAccount = this.typeAccountRepository.create(typeAccount);
+            if (!newTypeAccount) throw new Error('No se pudo crear el tipo de cuenta');
             await this.typeAccountRepository.save(newTypeAccount);
             return newTypeAccount;
         }
         catch(error){
-            throw new Error(`error al crear un tipo de cuenta: ${error.message}`);
+            throw new Error(`Error: ${error.message}`);
         }
     }
 

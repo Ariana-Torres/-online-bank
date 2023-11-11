@@ -1,5 +1,5 @@
 import { AccountBank } from "src/modules/account/entities/account.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class TypeAccount{
@@ -8,8 +8,7 @@ export class TypeAccount{
 
     @Column({type: 'varchar', nullable: false})
     typeAccount: string;
-
     
-    @OneToMany(() => AccountBank, account => account.typeAccount)
+    @ManyToOne(() => AccountBank, account => account.typeAccount)
     account: AccountBank[]
 }

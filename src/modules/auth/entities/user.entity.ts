@@ -32,7 +32,7 @@ export class User {
   images?: UsersImages[];
 
   @ManyToOne(() => AccountBank, account => account.users)
-  account: AccountBank;
+  account: AccountBank[];
 
   @OneToMany(() => Transaction, transaction => transaction.propietary)
   transaction: Transaction;
