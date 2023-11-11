@@ -14,6 +14,7 @@ export class BeneficiaryController{
         return await this.beneficiaryRepository.finAll();
     }
 
+    @Get(':id')
     async findOne(@Param('id') id: number){
         return await this.beneficiaryRepository.findOne(id);
     }

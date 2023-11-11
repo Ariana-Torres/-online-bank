@@ -21,6 +21,16 @@ export class CardService{
         }
     }
 
+    async findAll(): Promise<Card[]>{
+        try{
+            const get = await this.cardRepository.find();
+            return get;
+        }
+        catch(error){
+            throw new Error(`Error: ${error.message}`);
+        }
+    }
+
     async create(card: CreateCardDto): Promise<Card>{
         try{
             const newCard = this.cardRepository.create(card);

@@ -1,4 +1,4 @@
-import { Body, Injectable } from "@nestjs/common";
+import { Body, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateTransactionDto } from "../dtos/trasaction.dto";
@@ -13,11 +13,12 @@ export class TransactionService{
 
     async create(transaction: CreateTransactionDto): Promise<Transaction>{
         try{
-            const {propietary ,beneficiaryId, ...transactionDetail} = transaction;
+            const {propietaryId ,beneficiaryId,accountId,  ...transactionDetail} = transaction;
             const newTransaction = this.transactionRepository.create({
                 ...transactionDetail,
                 beneficiary: beneficiaryId ? [{id: beneficiaryId}] : [],
-                propietary, 
+                account: accountId ? [{id: accountId}] : [],
+                propietary: propietaryId ? [{id: propietaryId}] : []
             });
             await this.transactionRepository.save(newTransaction);
             return newTransaction;
@@ -27,6 +28,18 @@ export class TransactionService{
         }
     }
 
+    async findAll(): Promise<Transaction[]>{
+        try{
+            const get = await this.transactionRepository.find();
+
+            if(!get) throw new NotFoundException('No se encontraron transacciones');
+            return get;
+        }
+        catch(error){
+            if(error instanceof NotFoundException) throw error;
+            throw new Error(`Error: ${error.message}`);
+        }
+    }
     async findOne(id: number): Promise<Transaction>{
         try{
             return await this.transactionRepository.findOne({where:{id}});

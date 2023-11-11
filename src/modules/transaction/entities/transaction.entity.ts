@@ -18,11 +18,11 @@ export class Transaction {
     amount: number;
 
     @ManyToOne(()=> AccountBank, account=> account.transaction)
-    account: AccountBank;
+    account: AccountBank[];
 
     @ManyToMany(()=> Beneficiary, beneficiary=> beneficiary.account)
     beneficiary: Beneficiary[];
 
     @ManyToOne(()=>User, user=> user.transaction)
-    propietary: User;
+    propietary: User[];
 }

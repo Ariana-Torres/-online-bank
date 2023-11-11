@@ -8,8 +8,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { AccountBank } from 'src/modules/account/entities/account.entity';
-import { User } from 'src/modules/auth/entities/user.entity';
 
 export class CreateTransactionDto {
   @IsNotEmpty()
@@ -28,9 +26,13 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   amount: number;
 
-  @IsNotEmpty()
-  @IsObject()
-  propietary: User;
+  @IsNumber()
+  @IsOptional()
+  accountId: number;
+
+  @IsNumber()
+  @IsOptional()
+  propietaryId: number;
 
   @IsNumber()
   @IsOptional()

@@ -6,6 +6,11 @@ import { CreateTransactionDto } from "../dtos/trasaction.dto";
 export class TransactionController {
     constructor(private readonly transactionRepository: TransactionService) {}
 
+    @Get()
+    async findAll(){
+        return this.transactionRepository.findAll();
+    }
+
     @Get(':id')
     async findOne(id: number) {
         return this.transactionRepository.findOne(id)

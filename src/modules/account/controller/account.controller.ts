@@ -12,7 +12,9 @@ export class AccountController {
     }
 
     @Get(':id')
-    async findOne(id: number) {
+    async findOne(
+        @Param('id') id: number
+        ) {
         return this.accountService.findOne(id)
     }
 

@@ -9,7 +9,6 @@ import {
     IsString,
     MaxLength,
   } from 'class-validator';
-import { User } from 'src/modules/auth/entities/user.entity';
 import { TypeAccount } from 'src/modules/type-account/entities/type-account.entity';
 
 export class CreateAccountDto{
@@ -25,9 +24,9 @@ export class CreateAccountDto{
     @IsNotEmpty()
     balance: number;
 
-    @IsNotEmpty()
-    @IsObject()
-    users:User
+    @IsNumber()
+    @IsOptional()
+    userId: number;
 
     @IsDate()
     @IsNotEmpty()
@@ -53,8 +52,4 @@ export class CreateAccountDto{
     @IsNumber()
     @IsOptional()
     beneficiaryId: number;
-
-    @IsNumber()
-    @IsOptional()
-    transactionId: number;
 }

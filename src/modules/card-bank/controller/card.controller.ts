@@ -7,7 +7,12 @@ export class CardController{
     constructor(private readonly cardRepository: CardService){}
     @Get(':id')
     async findOne(id: number){
+        
         return await this.cardRepository.findOne(id);
+    }
+    @Get()
+    async findAll(){
+        return await this.cardRepository.findAll();
     }
 
     @Post()

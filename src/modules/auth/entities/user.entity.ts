@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UsersImages } from './usersImages.entity';
 import { AccountBank } from 'src/modules/account/entities/account.entity';
 import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
@@ -31,9 +31,9 @@ export class User {
   })
   images?: UsersImages[];
 
-  @OneToMany(() => AccountBank, account => account.users)
-  account: AccountBank[]
+  @ManyToOne(() => AccountBank, account => account.users)
+  account: AccountBank;
 
   @OneToMany(() => Transaction, transaction => transaction.propietary)
-  transaction: Transaction[];
+  transaction: Transaction;
 }

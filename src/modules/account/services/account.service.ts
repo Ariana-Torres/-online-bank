@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AccountBank } from "../entities/account.entity";
 import { Repository } from "typeorm";
@@ -17,12 +17,11 @@ export class AccountService {
 
     async create(account: CreateAccountDto,  ): Promise<AccountBank> {
         try {
-          const { cards=[],transactionId,beneficiaryId, typeAccount, users, ...accountDetail } = account;
+          const { cards=[],beneficiaryId, typeAccount, userId, ...accountDetail } = account;
           const newAccount = this.accountRepository.create({
             ...accountDetail,
-            users,
+            users: userId ? [{ id: userId }] : [], //mer sirve para crear un array de objetos de tipo user
             typeAccount,
-            transaction: transactionId ? [{ id: transactionId }] : [],//mer sirve para crear un array de objetos de tipo transaction
             beneficiaries: beneficiaryId ? [{ id: beneficiaryId }] : [], //mer sirve para crear un array de objetos de tipo beneficiary
             cards: cards.map((card) => this.cardRepository.create({
                 ...card, //creo un objeto de tipo card
@@ -35,21 +34,24 @@ export class AccountService {
           throw new Error(`Error creating account: ${error.message}`);
         }
       }
-
+ 
     async findAll(): Promise<AccountBank[]> {
       try{
-        return this.accountRepository.find({
+        const getAccount =  this.accountRepository.find({
             relations: ['users', 'cards','typeAccount', 'beneficiaries', 'transaction']//traigo las relaciones de la cuenta
         });
+        if(!getAccount) throw new NotFoundException('No se encontraron cuentas');
+        return getAccount;
       }
         catch(error){
+            if(error instanceof NotFoundException) throw error;
             throw new Error(`Error: ${error.message}`);
         }
     }
 
     async findOne(id: number): Promise<AccountBank> {
        try{
-        return this.accountRepository.findOne({where:{id}});
+        return this.accountRepository.findOne({where:{id}, relations: ['users', 'cards','typeAccount', 'beneficiaries', 'transaction']});
        }
         catch(error){
             throw new Error(`Error: ${error.message}`);

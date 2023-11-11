@@ -16,8 +16,8 @@ export class AccountBank {
     @Column({type: 'numeric', nullable: false, default: 0})
     balance: number;
 
-    @ManyToOne(()=> User, user=> user.account)
-    users: User;
+    @OneToMany(()=> User, user=> user.account)
+    users: User[];
 
     @Column({type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP'})
     dateCreated: Date;
