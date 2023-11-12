@@ -60,7 +60,8 @@ export class UserService{
         try{
             return await this.userRepository.find({
                 order :{id: 'ASC'},
-                relations: ['images'],
+                relations: ['images', 'account', 'transaction'],
+
             })
         }
         catch(error){

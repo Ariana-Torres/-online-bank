@@ -5,6 +5,7 @@ import { CreateTransactionDto } from "../dtos/trasaction.dto";
 import { Transaction } from '../entities/transaction.entity';
 import { AccountBank } from "src/modules/account/entities/account.entity";
 import { User } from "src/modules/auth/entities/user.entity";
+import { Beneficiary } from "src/modules/beneficiary/entities/beneficiary.entity";
 
 @Injectable()
 export class TransactionService{
@@ -17,6 +18,9 @@ export class TransactionService{
 
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+
+        @InjectRepository(Beneficiary)
+        private readonly beneficariaryRepository: Repository<Beneficiary>
     ){}
 
     async create(transaction: CreateTransactionDto): Promise<Transaction> {
@@ -37,7 +41,7 @@ export class TransactionService{
           }
       
           // Verificar si existe el beneficiario
-          const beneficiary = await this.userRepository.findOne({where:{id: beneficiaryId}});
+          const beneficiary = await this.beneficariaryRepository.findOne({where:{id: beneficiaryId}});
           if (!beneficiary) {
             throw new NotFoundException(`No se encontró el beneficiario con ID ${beneficiaryId}`);
           }

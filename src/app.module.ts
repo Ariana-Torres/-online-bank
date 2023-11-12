@@ -16,7 +16,7 @@ import { TypeAccountModule } from './modules/type-account/type-account.module';
     host: 'localhost',
     port: 5432,
     username: 'postgres',
-    password:'12345678',
+    password:'root',
     database: 'onlinebank',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true,

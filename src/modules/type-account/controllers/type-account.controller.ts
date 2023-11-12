@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { TypeAccountService } from "../services/type-account.service";
 import { CreateTypeAccountDto } from "../dto/type-accont.dto";
 
@@ -14,7 +14,7 @@ export class TypeAccountController{
     }
 
     @Delete(':id')
-    async delete(id: number){
+    async delete(@Param('id', ParseIntPipe)  id: number){
         return await this.typeAccountService.delete(id);
     }
 
